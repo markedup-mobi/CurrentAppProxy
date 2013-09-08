@@ -67,7 +67,7 @@ namespace CurrentAppProxy
                 return CurrentAppSimulator.LinkUri;
 
 #else
-                    return CurrentApp.LinkUri;
+                return CurrentApp.LinkUri;
 #endif
             }
         }

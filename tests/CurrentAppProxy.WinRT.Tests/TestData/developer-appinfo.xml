@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CurrentApp>
+  <ListingInformation>
+    <App>
+      <AppId>2B14D306-D8F8-4066-A45B-0FB3464C67F2</AppId>
+      <LinkUri>http://apps.windows.microsoft.com/app/2B14D306-D8F8-4066-A45B-0FB3464C67F2</LinkUri>
+      <CurrentMarket>en-US</CurrentMarket>
+      <AgeRating>3</AgeRating>
+      <MarketData xml:lang="en-us">
+        <Name>Developer license</Name>
+        <Description>Sample app for demonstrating trial license management</Description>
+        <Price>4.99</Price>
+        <CurrencySymbol>$</CurrencySymbol>
+      </MarketData>
+    </App>
+  </ListingInformation>
+  <LicenseInformation>
+    <App>
+      <IsActive>false</IsActive>
+      <IsTrial>true</IsTrial>
+    </App>
+  </LicenseInformation>
+  <Simulation SimulationMode="Automatic">
+    <DefaultResponse MethodName="LoadListingInformationAsync_GetResult" HResult="E_FAIL"/>
+  </Simulation>
+</CurrentApp>
