@@ -10,6 +10,7 @@ using Windows.Storage;
 
 namespace MarkedUp
 {
+#if DEBUG //This class should not exist in production, just like the real thing on WinRT\
     public class CurrentAppSimulator
     {
         private static readonly DateTime DEVELOPER_LICENSE_EXPIRES = new DateTime(504911232000000000, DateTimeKind.Utc);
@@ -28,7 +29,7 @@ namespace MarkedUp
             _methodResults = methodResults;
         }
 
-#region public methods
+        #region public methods
 
 
         public static async Task ReloadSimulatorAsync(StorageFile storageFile)
@@ -70,7 +71,7 @@ namespace MarkedUp
                 });
         }
 
-#endregion
+        #endregion
 
         #region Default CurrentAppSimulator settings
 
@@ -150,7 +151,7 @@ namespace MarkedUp
 
             var expirationString = licenseNode.Element("ExpirationDate").SafeRead();
             DateTime expirationDate;
-            if(String.IsNullOrEmpty(expirationString) || !DateTime.TryParse(expirationString, out expirationDate))
+            if (String.IsNullOrEmpty(expirationString) || !DateTime.TryParse(expirationString, out expirationDate))
                 expirationDate = DEVELOPER_LICENSE_EXPIRES; //The date a developer license expires ({12/31/1600 12:00:00 AM UTC})
 
             li.ExpirationDate = expirationDate;
@@ -180,10 +181,10 @@ namespace MarkedUp
                 var marketData = appNode.Element("MarketData");
 
                 listingInfo.Description = marketData.Element("Description").SafeRead();
-                listingInfo.Name = (string) marketData.Element("Name");
-                listingInfo.FormattedPrice = (string) marketData.Element("CurrencySymbol") +
-                                             (string) marketData.Element("Price");
-                
+                listingInfo.Name = (string)marketData.Element("Name");
+                listingInfo.FormattedPrice = string.Format("{0}{1}", (string)marketData.Element("CurrencySymbol"),
+                                             Double.Parse(marketData.Element("Price").SafeRead("0.00")).ToString("0.00", CultureInfo.CurrentUICulture));
+
                 //Products
                 foreach (var product in node.Elements("Product"))
                 {
@@ -194,11 +195,11 @@ namespace MarkedUp
 
                     productListing.Description = iapMarketData.Element("Description").SafeRead();
                     productListing.Name = iapMarketData.Element("Name").SafeRead();
-                    productListing.FormattedPrice = (string)iapMarketData.Element("CurrencySymbol") +
-                                                 (string)iapMarketData.Element("Price");
+                    productListing.FormattedPrice = string.Format("{0}{1}", (string)iapMarketData.Element("CurrencySymbol"),
+                                             Double.Parse(iapMarketData.Element("Price").SafeRead("0.00")).ToString("0.00", CultureInfo.CurrentUICulture));
                     productListing.ProductType = (ProductType)iapMarketData.Element("ProductType").SafeRead(ProductType.Unknown);
                     listingInfo.ProductListings.Add(productListing.ProductId, productListing);
-                    
+
                 }
             }
 
@@ -206,7 +207,7 @@ namespace MarkedUp
             return resultantListing;
         }
 
-        
+
 
         /// <summary>
         /// Loads all of the defaults for simulating CurrentAppSimulator failures on WP8
@@ -214,7 +215,7 @@ namespace MarkedUp
         /// <returns>A populated read-only dictionary containing method names and a boolean indicating if the value is successful or not</returns>
         private static IDictionary<string, bool> DefaultMethodResults()
         {
-            return new Dictionary<string, bool>(){ { "LoadListingInformationAsync_GetResult", true } };
+            return new Dictionary<string, bool>() { { "LoadListingInformationAsync_GetResult", true } };
         }
 
         /// <summary>
@@ -230,8 +231,8 @@ namespace MarkedUp
                     IsTrial = true
                 };
         }
-    
-#endregion
+
+        #endregion
     }
 
     #region AppListing class - used to hold internal state for WP8 - CurrentAppSimulator
@@ -269,5 +270,7 @@ namespace MarkedUp
     }
 
     #endregion
+
+#endif
 
 }
