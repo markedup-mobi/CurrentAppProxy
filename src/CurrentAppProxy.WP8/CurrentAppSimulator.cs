@@ -71,7 +71,63 @@ namespace MarkedUp
                 });
         }
 
-        
+        public static async Task<string> RequestProductPurchaseAsync(string productId, bool includeReceipt)
+        {
+            return await Task.Run(() =>
+            {
+                if (!_instance._methodResults["RequestProductPurchaseAsync_GetResult"])
+                    throw new ApplicationException("RequestProductPurchaseAsync was programmed to fail in CurrentAppSimulator settings");
+
+                if (_instance._listingInformation.ListingInformation.ProductListings.ContainsKey(productId))
+                {
+                    return "purchased " + productId; //TODO: replace with appropriate XML
+                }
+                else
+                {
+                    throw new ApplicationException(string.Format("In-app purchase {0} not found in CurrentAppSimulator listing information", productId));
+                }
+            });
+        }
+
+        public static async Task<string> RequestAppPurchaseAsync(bool includeReceipt)
+        {
+            return await Task.Run(() =>
+            {
+                if (!_instance._methodResults["RequestAppPurchaseAsync_GetResult"])
+                    throw new ApplicationException("RequestAppPurchaseAsync was programmed to fail in CurrentAppSimulator settings");
+
+                return "purchased " + AppId; //TODO: replace with appropriate XML
+            });
+        }
+
+        public static async Task<string> GetAppReceiptAsync()
+        {
+            return await Task.Run(() =>
+            {
+                if (!_instance._methodResults["GetAppReceiptAsync_GetResult"])
+                    throw new ApplicationException("GetAppReceiptAsync was programmed to fail in CurrentAppSimulator settings");
+
+                    return "purchased " + AppId; //TODO: replace with appropriate XML
+            });
+        }
+
+        public static async Task<string> GetProductReceiptAsync(string productId)
+        {
+            return await Task.Run(() =>
+            {
+                if (!_instance._methodResults["GetProductReceiptAsync_GetResult"])
+                    throw new ApplicationException("GetProductReceiptAsync was programmed to fail in CurrentAppSimulator settings");
+
+                if (_instance._listingInformation.ListingInformation.ProductListings.ContainsKey(productId))
+                {
+                    return "purchased " + productId; //TODO: replace with appropriate XML
+                }
+                else
+                {
+                    throw new ApplicationException(string.Format("In-app purchase {0} not found in CurrentAppSimulator listing information", productId));
+                }
+            });
+        }
 
         #endregion
 
@@ -217,7 +273,13 @@ namespace MarkedUp
         /// <returns>A populated read-only dictionary containing method names and a boolean indicating if the value is successful or not</returns>
         private static IDictionary<string, bool> DefaultMethodResults()
         {
-            return new Dictionary<string, bool>() { { "LoadListingInformationAsync_GetResult", true } };
+            return new Dictionary<string, bool>() { 
+                { "LoadListingInformationAsync_GetResult", true }, 
+                { "RequestProductPurchaseAsync_GetResult", true },
+                { "RequestAppPurchaseAsync_GetResult", true },
+                { "GetAppReceiptAsync_GetResult", true },
+                { "GetProductReceiptAsync_GetResult", true }
+            };
         }
 
         /// <summary>
@@ -236,25 +298,7 @@ namespace MarkedUp
 
         #endregion
 
-        public static Task<string> RequestProductPurchaseAsync(string productId, bool includeReceipt)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static Task<string> RequestAppPurchaseAsync(bool includeReceipt)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static async Task<string> GetAppReceiptAsync()
-        {
-            return await Task.Run(() => "Not implemented - we love pull requests!");
-        }
-
-        public static async Task<string> GetProductReceiptAsync(string productId)
-        {
-            return await Task.Run(() => "Not implemented - we love pull requests!");
-        }
+       
     }
 
     #region AppListing class - used to hold internal state for WP8 - CurrentAppSimulator
