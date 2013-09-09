@@ -9,7 +9,7 @@
     <ProjectGuid>{61BE4977-AB6E-49D8-AE56-37DFDBA6E73A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CurrentAppProxy</RootNamespace>
+    <RootNamespace>MarkedUp</RootNamespace>
     <AssemblyName>CurrentAppProxy.WinRT</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>

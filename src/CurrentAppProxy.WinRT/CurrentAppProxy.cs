@@ -7,12 +7,12 @@ using Windows.ApplicationModel.Store;
 using Windows.Storage;
 #endif
 
-namespace CurrentAppProxy
+namespace MarkedUp
 {
     /// <summary>
     /// Helpers which enables us swap between using CurrentApp in release and CurrentAppSimulator during testing
     /// </summary>
-    internal static class CurrentAppProxy
+    public static class CurrentAppProxy
     {
 #if DEBUG   //WP8 does not support CurrentAppSimulator
         /// <summary>

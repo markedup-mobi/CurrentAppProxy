@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using Windows.ApplicationModel.Store;
 using Windows.Storage;
 
-namespace CurrentAppProxy
+namespace MarkedUp
 {
     public class CurrentAppSimulator
     {
