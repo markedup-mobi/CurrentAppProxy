@@ -235,6 +235,26 @@ namespace MarkedUp
         }
 
         #endregion
+
+        public static Task<string> RequestProductPurchaseAsync(string productId, bool includeReceipt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Task<string> RequestAppPurchaseAsync(bool includeReceipt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static async Task<string> GetAppReceiptAsync()
+        {
+            return await Task.Run(() => "Not implemented - we love pull requests!");
+        }
+
+        public static async Task<string> GetProductReceiptAsync(string productId)
+        {
+            return await Task.Run(() => "Not implemented - we love pull requests!");
+        }
     }
 
     #region AppListing class - used to hold internal state for WP8 - CurrentAppSimulator

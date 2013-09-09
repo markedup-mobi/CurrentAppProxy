@@ -108,7 +108,7 @@ namespace MarkedUp
         public static async Task<string> GetAppReceiptAsync()
         {
 #if DEBUG
-            return await CurrentAppSimulator.GetAppReceiptAsync()
+            return await CurrentAppSimulator.GetAppReceiptAsync();
 #else
             return await CurrentApp.GetAppReceiptAsync();
 #endif
