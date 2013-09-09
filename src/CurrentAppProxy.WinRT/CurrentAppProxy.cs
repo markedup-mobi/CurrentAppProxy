@@ -262,6 +262,11 @@ namespace MarkedUp
 
         public Dictionary<string, ProductListing> ProductListings { get; set; }
 
+        public ListingInformation()
+        {
+            ProductListings = new Dictionary<string, ProductListing>();
+        }
+
         public static ListingInformation Create(Windows.ApplicationModel.Store.ListingInformation source)
         {
             var listingInformation = new ListingInformation()

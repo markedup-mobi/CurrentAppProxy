@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -129,7 +130,13 @@ namespace MarkedUp
                 var appNode = node.Element("App");
                 resultantListing.AppId = Guid.Parse((string)appNode.Element("AppId"));
                 resultantListing.LinkUri = new Uri((string)appNode.Element("LinkUri"));
-                listingInfo.CurrentMarket = (string)appNode.Element("CurrentMarket");
+                listingInfo.CurrentMarket = appNode.Element("CurrentMarket").SafeRead();
+
+                //Parse out the correct ISO country code for the current market based on the region information included in the XML file
+                if (listingInfo.CurrentMarket == null)
+                    listingInfo.CurrentMarket = RegionInfo.CurrentRegion.TwoLetterISORegionName; //use current region by default
+                else
+                    listingInfo.CurrentMarket = new RegionInfo(listingInfo.CurrentMarket).TwoLetterISORegionName;
 
                 var marketData = appNode.Element("MarketData");
 
@@ -144,7 +151,7 @@ namespace MarkedUp
                     var productListing = new ProductListing();
                     productListing.ProductId = product.Attribute("ProductId").SafeRead();
 
-                    var iapMarketData = node.Element("MarketData");
+                    var iapMarketData = product.Element("MarketData");
 
                     productListing.Description = iapMarketData.Element("Description").SafeRead();
                     productListing.Name = iapMarketData.Element("Name").SafeRead();
@@ -156,6 +163,7 @@ namespace MarkedUp
                 }
             }
 
+            resultantListing.ListingInformation = listingInfo;
             return resultantListing;
         }
 

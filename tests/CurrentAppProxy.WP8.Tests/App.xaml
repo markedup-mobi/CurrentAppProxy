@@ -8,7 +8,7 @@
 
     <!--Application Resources-->
     <Application.Resources>
-
+        <tests:LocalizedStrings x:Key="LocalizedStrings"></tests:LocalizedStrings>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

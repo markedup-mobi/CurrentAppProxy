@@ -22,7 +22,7 @@
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>CurrentAppProxy.WP8.Tests_$(Configuration)_$(Platform).xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>CurrentAppProxy.WP8.Tests.App</SilverlightAppEntry>
+    <SilverlightAppEntry>MarkedUp.Tests.App</SilverlightAppEntry>
     <ValidateXaml>false</ValidateXaml>
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
@@ -117,18 +117,23 @@
     </Content>
     <Content Include="..\CurrentAppProxy.WinRT.Tests\TestData\CurrentAppSimulator\free-appinfo.xml">
       <Link>TestData\CurrentAppSimulator\free-appinfo.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\CurrentAppProxy.WinRT.Tests\TestData\CurrentAppSimulator\inapppurchase-appinfo.xml">
       <Link>TestData\CurrentAppSimulator\inapppurchase-appinfo.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\CurrentAppProxy.WinRT.Tests\TestData\CurrentAppSimulator\purchased-appinfo-fail.xml">
       <Link>TestData\CurrentAppSimulator\purchased-appinfo-fail.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\CurrentAppProxy.WinRT.Tests\TestData\CurrentAppSimulator\purchased-appinfo.xml">
       <Link>TestData\CurrentAppSimulator\purchased-appinfo.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\CurrentAppProxy.WinRT.Tests\TestData\CurrentAppSimulator\trial-appinfo.xml">
       <Link>TestData\CurrentAppSimulator\trial-appinfo.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\ApplicationIcon.png">
