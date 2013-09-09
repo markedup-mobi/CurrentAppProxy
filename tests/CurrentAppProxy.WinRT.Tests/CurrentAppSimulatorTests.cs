@@ -92,10 +92,12 @@ namespace MarkedUp.Tests
             Assert.AreEqual("$14.99", someOtherFeature.FormattedPrice);
         }
 
-    }
+
 #else //don't run any tests in release mode (where CurrentApp is used instead of CurrentAppSimulator)
-    [Ignore]
-    public void NotRun(){
-    }
+        [Ignore]
+        public void NotRun()
+        {
+        }
 #endif
+    }
 }

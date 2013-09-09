@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Store;
 #if DEBUG //Only need access to the WinRT file system when debugging
+using Windows.Foundation;
 using Windows.Storage;
 #endif
 
@@ -83,6 +84,42 @@ namespace MarkedUp
             
 #else
             return ListingInformation.Create(await CurrentApp.LoadListingInformationAsync());
+#endif
+        }
+
+        public static async Task<string> RequestProductPurchaseAsync(string productId, bool includeReceipt)
+        {
+#if DEBUG
+            return await CurrentAppSimulator.RequestProductPurchaseAsync(productId, includeReceipt);
+#else
+            return await CurrentApp.RequestProductPurchaseAsync(productId, includeReceipt);
+#endif
+        }
+
+        public static async Task<string> RequestAppPurchaseAsync(bool includeReceipt)
+        {
+#if DEBUG
+            return await CurrentAppSimulator.RequestAppPurchaseAsync(includeReceipt);
+#else
+            return await CurrentApp.RequestAppPurchaseAsync(includeReceipt);
+#endif
+        }
+
+        public static async Task<string> GetAppReceiptAsync()
+        {
+#if DEBUG
+            return await CurrentAppSimulator.GetAppReceiptAsync()
+#else
+            return await CurrentApp.GetAppReceiptAsync();
+#endif
+        }
+
+        public static async Task<string> GetProductReceiptAsync(string productId)
+        {
+#if DEBUG
+            return await CurrentAppSimulator.GetProductReceiptAsync(productId);
+#else
+            return await CurrentApp.GetProductReceiptAsync(productId);
 #endif
         }
     }

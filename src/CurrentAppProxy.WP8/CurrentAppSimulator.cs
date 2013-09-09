@@ -71,6 +71,8 @@ namespace MarkedUp
                 });
         }
 
+        
+
         #endregion
 
         #region Default CurrentAppSimulator settings
