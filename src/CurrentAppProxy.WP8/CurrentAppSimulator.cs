@@ -12,7 +12,9 @@ namespace MarkedUp
 {
     public class CurrentAppSimulator
     {
-        private static CurrentAppSimulator _instance;
+        private static readonly DateTime DEVELOPER_LICENSE_EXPIRES = new DateTime(504911232000000000, DateTimeKind.Utc);
+
+        private static CurrentAppSimulator _instance = DefaultAppSimulator();
 
         private readonly IDictionary<string, bool> _methodResults;
         private readonly AppListing _listingInformation;
@@ -70,7 +72,44 @@ namespace MarkedUp
 
 #endregion
 
-#region XML populating methods (used for populating the CurrentAppSimulator object)
+        #region Default CurrentAppSimulator settings
+
+        /// <summary>
+        /// Populates a default CurrentAppSimulator implementation based off of what's available in the WMAppManifest.xml file
+        /// </summary>
+        /// <returns>A CurrentAppSimulator instance populated via the contents of the WMAppManifest.xml file</returns>
+        private static CurrentAppSimulator DefaultAppSimulator()
+        {
+            var appProperties = new AppListing();
+            appProperties.ListingInformation = new ListingInformation();
+            var appManifestXml = XDocument.Load(
+               "WMAppManifest.xml");
+
+            using (var rdr = appManifestXml.CreateReader(ReaderOptions.None))
+            {
+                rdr.ReadToDescendant("App");
+                if (!rdr.IsStartElement())
+                {
+                    throw new System.FormatException("WMAppManifest.xml is missing.");
+                }
+
+                var productId = rdr.GetAttribute("ProductID");
+                appProperties.AppId = Guid.Parse(productId);
+                appProperties.LinkUri = new Uri(string.Format("https://store.windows.com/en-US/{0}", appProperties.AppId.ToString()));
+                appProperties.ListingInformation.CurrentMarket = RegionInfo.CurrentRegion.TwoLetterISORegionName;
+                appProperties.ListingInformation.Description = rdr.GetAttribute("Description");
+                appProperties.ListingInformation.Name = rdr.GetAttribute("Title");
+                appProperties.ListingInformation.FormattedPrice = string.Format("{0}{1}",
+                                                                                RegionInfo.CurrentRegion
+                                                                                          .ISOCurrencySymbol, 0.00d);
+            }
+
+            return new CurrentAppSimulator(appProperties, DefaultLicenseInformation(), DefaultMethodResults());
+        }
+
+        #endregion
+
+        #region XML populating methods (used for populating the CurrentAppSimulator object)
 
         private static CurrentAppSimulator FromXml(XDocument simulatorXml)
         {
@@ -112,7 +151,7 @@ namespace MarkedUp
             var expirationString = licenseNode.Element("ExpirationDate").SafeRead();
             DateTime expirationDate;
             if(String.IsNullOrEmpty(expirationString) || !DateTime.TryParse(expirationString, out expirationDate))
-                expirationDate = new DateTime(504911232000000000, DateTimeKind.Utc); //The date a developer license expires ({12/31/1600 12:00:00 AM UTC})
+                expirationDate = DEVELOPER_LICENSE_EXPIRES; //The date a developer license expires ({12/31/1600 12:00:00 AM UTC})
 
             li.ExpirationDate = expirationDate;
             li.IsActive = bool.Parse(licenseNode.Element("IsActive").SafeRead("true"));
@@ -177,9 +216,25 @@ namespace MarkedUp
         {
             return new Dictionary<string, bool>(){ { "LoadListingInformationAsync_GetResult", true } };
         }
+
+        /// <summary>
+        /// Default license information if none is specified through Simulator settings
+        /// </summary>
+        /// <returns>A populated LicenseInformation object</returns>
+        private static LicenseInformation DefaultLicenseInformation()
+        {
+            return new LicenseInformation()
+                {
+                    ExpirationDate = DEVELOPER_LICENSE_EXPIRES,
+                    IsActive = true,
+                    IsTrial = true
+                };
+        }
     
 #endregion
     }
+
+    #region AppListing class - used to hold internal state for WP8 - CurrentAppSimulator
 
     class AppListing
     {
@@ -187,6 +242,10 @@ namespace MarkedUp
         public Uri LinkUri { get; set; }
         public ListingInformation ListingInformation { get; set; }
     }
+
+    #endregion
+
+    #region XDocument (Linq-to-XML) extension methods to make parsing fun and safe!
 
     public static class XDocumentExtensions
     {
@@ -208,5 +267,7 @@ namespace MarkedUp
             return (Enum)Enum.Parse(defaultValueIfNull.GetType(), element.Value);
         }
     }
+
+    #endregion
 
 }

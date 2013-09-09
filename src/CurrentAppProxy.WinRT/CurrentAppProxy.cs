@@ -14,7 +14,7 @@ namespace MarkedUp
     /// </summary>
     public static class CurrentAppProxy
     {
-#if DEBUG   //WP8 does not support CurrentAppSimulator
+#if DEBUG   
         /// <summary>
         /// Reloads and restarts the simulator when provided with a new StorageFile reference
         /// </summary>
