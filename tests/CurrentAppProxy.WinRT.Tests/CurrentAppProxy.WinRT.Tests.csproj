@@ -9,7 +9,7 @@
     <ProjectGuid>{61F8D39B-8C73-475C-95BE-75F000B49CFF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MarkedUp.WinRT.Tests</RootNamespace>
+    <RootNamespace>MarkedUp.Tests</RootNamespace>
     <AssemblyName>CurrentAppProxy.WinRT.Tests</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>

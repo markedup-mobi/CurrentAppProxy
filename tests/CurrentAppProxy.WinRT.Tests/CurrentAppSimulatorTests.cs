@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Windows.Storage;
 using MarkedUp;
 
-namespace MarkedUp.WinRT.Tests
+namespace MarkedUp.Tests
 {
     [TestClass]
     public class CurrentAppSimulatorTests
@@ -30,6 +30,10 @@ namespace MarkedUp.WinRT.Tests
             Assert.AreEqual("Sample app for demonstrating trial license management", appStoreListing.Description);
             Assert.AreEqual("US", appStoreListing.CurrentMarket);
         }
+    }
+#else //don't run any tests in release mode (where CurrentApp is used instead of CurrentAppSimulator)
+    [Ignore]
+    public void NotRun(){
     }
 #endif
 }

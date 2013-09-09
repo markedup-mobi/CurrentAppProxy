@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MarkedUp.WinRT.Tests
+namespace MarkedUp.Tests
 {
     /// <summary>
     /// Uris that contain TestData files - since it's super awkward for WinRT to load this itself
