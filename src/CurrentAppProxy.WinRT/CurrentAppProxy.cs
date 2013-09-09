@@ -35,8 +35,8 @@ namespace CurrentAppProxy
                 return LicenseInformation.Create(CurrentAppSimulator.LicenseInformation);
 
 #else
-                    var licenseInfo = LicenseInformation.Create(CurrentApp.LicenseInformation);
-                    return licenseInfo;
+                var licenseInfo = LicenseInformation.Create(CurrentApp.LicenseInformation);
+                return licenseInfo;
 #endif
             }
         }
@@ -51,7 +51,7 @@ namespace CurrentAppProxy
 #if DEBUG
                 return CurrentAppSimulator.AppId;
 #else
-                    return CurrentApp.AppId;
+                return CurrentApp.AppId;
 #endif
             }
         }
@@ -78,12 +78,11 @@ namespace CurrentAppProxy
         /// <returns></returns>
         public static async Task<ListingInformation> LoadListingInformationAsync()
         {
-#if RELEASE
-                return ListingInformation.Create(await CurrentApp.LoadListingInformationAsync());
-#else
 #if DEBUG
             return ListingInformation.Create(await CurrentAppSimulator.LoadListingInformationAsync());
-#endif
+            
+#else
+            return ListingInformation.Create(await CurrentApp.LoadListingInformationAsync());
 #endif
         }
     }
@@ -93,7 +92,7 @@ namespace CurrentAppProxy
     /// <summary>
     /// Class used to describe the marketplace listing information for an in-app purchase
     /// </summary>
-    internal sealed class ProductListing
+    public sealed class ProductListing
     {
         /// <summary>
         /// The unique identifier for this app or in-app purchase available to customers
@@ -145,7 +144,7 @@ namespace CurrentAppProxy
         /// </summary>
         /// <param name="source">A valid Windows.ApplicationModel.Store.ProductListing from the CurrentApp or CurrentAppSimulator class</param>
         /// <returns>A ProductListing instance with all properties copied from the original</returns>
-        internal static ProductListing Create(Windows.ApplicationModel.Store.ProductListing source)
+        public static ProductListing Create(Windows.ApplicationModel.Store.ProductListing source)
         {
             var productListing = new ProductListing
             {
@@ -180,7 +179,7 @@ namespace CurrentAppProxy
     /// <summary>
     /// Class used to describe the licensing status of an in-app purchase
     /// </summary>
-    internal sealed class ProductLicense
+    public sealed class ProductLicense
     {
         /// <summary>
         /// The id of this in-app purchase in the store
@@ -242,7 +241,7 @@ namespace CurrentAppProxy
     /// Class used to describe the marketplace listing information for an app
     /// and all of its associated in-app purchases
     /// </summary>
-    internal sealed class ListingInformation
+    public sealed class ListingInformation
     {
         public string Name { get; set; }
 
@@ -303,7 +302,7 @@ namespace CurrentAppProxy
     /// <summary>
     /// Class used to describe all licensing information specific to the installed app 
     /// </summary>
-    internal sealed class LicenseInformation
+    public sealed class LicenseInformation
     {
         /// <summary>
         /// True if the license is active and valid; false otherwise.
